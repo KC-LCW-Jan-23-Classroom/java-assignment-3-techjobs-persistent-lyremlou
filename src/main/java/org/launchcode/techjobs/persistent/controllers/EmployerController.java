@@ -1,6 +1,8 @@
 package org.launchcode.techjobs.persistent.controllers;
 
 import org.launchcode.techjobs.persistent.models.Employer;
+import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -13,7 +15,16 @@ import java.util.Optional;
 @RequestMapping("employers")
 public class EmployerController {
 
+    @Autowired
+    private EmployerRepository employerRepository;
 
+    @GetMapping("/employers")
+    public String displayAllEmployers(Model model) {
+        model.addAttribute("title", "All Employers");
+        model.addAttribute("employer", employerRepository.findAll());
+
+        return "employers/index";
+    }
     @GetMapping("add")
     public String displayAddEmployerForm(Model model) {
         model.addAttribute(new Employer());
